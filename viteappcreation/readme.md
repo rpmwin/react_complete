@@ -1,0 +1,6 @@
+#start of reactjs !!!
+
+to create a react app you can directly go with the OG - method : npx create-react-app 
+this method usually is not efficient method of running and consumes more energy...
+
+one more  way to install is $ npm create vite@latest : this is a vite bundler and this installs a a bare minimum react app which consumes less energy ....
