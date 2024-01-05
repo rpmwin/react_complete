@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback, useId, useEffect, useRef } from "react";
 
 import "./App.css";
 
@@ -7,6 +7,7 @@ function App() {
   const [numberAllowed, setnumber] = useState(false);
   const [charAllowed, setchar] = useState(false);
   const [password, setpassword] = useState("");
+  const passwordref = useRef(null);
   // let allNumber = [1, 2, 3, 4, 5, 6, 7, 8, 9];
   //   let allLetters = {
   //     1: 'A',
@@ -45,7 +46,7 @@ function App() {
 
   // console.log(randomLetter);
 
-  const generatePassword = () => {
+  const generatePassword = useCallback(() => {
     let str = "abcdefghijklmnopqrstuvwxyz";
     let newPassword = "";
     if (charAllowed) str += "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -56,7 +57,15 @@ function App() {
       console.log(newPassword);
     }
     setpassword(newPassword);
-  };
+  }, [length, numberAllowed, charAllowed]);
+  useEffect(() => {
+    generatePassword();
+  }, [length, charAllowed, numberAllowed]);
+  function copyToClipboard (){
+    window.navigator.clipboard.writeText(password);
+    passwordref.current.select();
+  }
+
 
   return (
     <>
@@ -73,8 +82,10 @@ function App() {
               value={password}
               placeholder="Password"
               readOnly
+              ref={passwordref}
             />
-            <button className=" bg-blue-600 text-xl px-2 rounded-2xl font-semibold   ">
+            <button className=" bg-blue-600 text-xl px-2 rounded-2xl font-semibold   "
+            onClick={copyToClipboard}>
               COPY
             </button>
           </div>
