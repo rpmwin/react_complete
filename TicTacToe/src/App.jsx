@@ -3,27 +3,30 @@ import "./App.css";
 import { useEffect } from "react";
 
 function App() {
-  const [player, setPlayer] = useState("x");
-  const [player1, setPlayer1] = useState("x");
-  const [player2, setPlayer2] = useState("o");
-  const [playerName, setPlayerName] = useState("x");
+  const initialPlayer1 = "x";
+  const initialPlayer2 = "o";
+
+  const [player, setPlayer] = useState(initialPlayer1);
+  const [player1, setPlayer1] = useState(initialPlayer1);
+  const [player2, setPlayer2] = useState(initialPlayer2);
+  const [playerName, setPlayerName] = useState(player1);
   const [winner, setWinner] = useState(false);
 
   const buttonsRef = useRef(Array(9).fill(null));
 
   useEffect(()=>{
     if (player === "x") {
-      setPlayerName(player1)
+      setPlayerName(player1.toUpperCase())
     } else {
-      setPlayerName(player2)
+      setPlayerName(player2.toUpperCase())
       
     }
   },[])
   useEffect(()=>{
     if (player === "x") {
-      setPlayerName(player1)
+      setPlayerName(player1.toUpperCase())
     } else {
-      setPlayerName(player2)
+      setPlayerName(player2.toUpperCase())
       
     }
   },[player,player1,player2])
@@ -116,6 +119,20 @@ const handlePlayerName = (e) =>{
   }
 }
 
+const handleReset = (e) =>
+{
+  // setPlayer(initialPlayer1);
+  //   setPlayer1(initialPlayer1);
+  //   setPlayer2(initialPlayer2);
+  //   setPlayerName(initialPlayer1);
+    setWinner(false);
+
+    // Reset button states and text
+    buttonsRef.current.forEach((button) => {
+      button.disabled = false;
+      button.innerText = "";
+    });
+}
 
 // ...
 
@@ -152,7 +169,7 @@ const handlePlayerName = (e) =>{
           </div>
         ))}
       </div>
-      
+     <button className=" bg-red-600 p-4 rounded-2xl" onClick={handleReset}>reset</button>
     </div>
   );
 }
