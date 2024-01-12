@@ -110,14 +110,14 @@ const handlePlayer = (e) => {
   }
 }
 
-const handlePlayerName = (e) =>{
-  if (player === 'x') {
-    e.target.innerText = {player1}
-  } else {
-    e.target.innerText = {player2}
-    
-  }
-}
+// const handlePlayerName = (e) => {
+//   if (player === 'x') {
+//     e.target.innerText = player1;
+//   } else {
+//     e.target.innerText = player2;
+//   }
+// }
+
 
 const handleReset = (e) =>
 {
