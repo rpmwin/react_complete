@@ -8,36 +8,72 @@ function Signup() {
   const [landNumber, setLandNumber] = useState("");
   const [loader, setLoader] = useState(false);
 
-  const signupform = async (e) => {
-    e.preventDefault();
-    // console.log(userName, email, phoneNumber, password, landNumber);
-
-    let Data = {
-      name: userName,
-      email: email,
-      phoneNumber: phoneNumber,
-      password: password,
-      landNumber: landNumber,
-    };
-
-    let jsonData = JSON.stringify(Data);
-    setLoader(true);
-
+  const checkAvailability = async (type, value) => {
     try {
-      const response = await fetch(`http://localhost:5544/routes/createUser`, {
+      const response = await fetch(`http://localhost:5544/routes/checkphone`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: jsonData,
+        body: JSON.stringify({ type, value }),
       });
+      return response.ok;
+    } catch (error) {
+      console.log(
+        "Some error occurred in the check availability function",
+        error
+      );
+    }
+  };
 
-      if (response.ok) {
-        console.log("Success: Information has been successfully sent", jsonData.name);
-        // Add any success logic here
+  const signupform = async (e) => {
+    e.preventDefault();
+    setLoader(true);
+
+    try {
+      const phoneAvailable = await checkAvailability(
+        "phoneNumber",
+        phoneNumber
+      );
+
+      if (!phoneAvailable) {
+        let data = {
+          name: userName,
+          email: email,
+          phoneNumber: phoneNumber,
+          password: password,
+          landNumber: landNumber,
+        };
+
+        let jsonData = JSON.stringify(data);
+
+        const response = await fetch(
+          `http://localhost:5544/routes/createUser`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: jsonData,
+          }
+        );
+
+        if (response.ok) {
+          console.log(
+            "Success: Information has been successfully sent",
+            response
+          );
+          console.log(
+            "Success: Information has been successfully sent",
+            jsonData.name
+          );
+          // Add any success logic here
+        } else {
+          console.log("Error: Failed to create user");
+          // Handle error, you can add more detailed error handling here
+        }
       } else {
-        console.log("Error: Failed to create user");
-        // Handle error, you can add more detailed error handling here
+        alert("Please enter a different phone number");
       }
     } catch (error) {
       console.error("Signup error occurred...", error);
@@ -45,12 +81,12 @@ function Signup() {
       setLoader(false);
     }
   };
+
   return (
     <div className="w-screen min-h-screen flex justify-center items-center text-left flex-col m-6 box-content scroll-lazy duration-100">
-      {/* ... rest of your code ... */}
       <form
         onSubmit={signupform}
-        className="flex flex-col gap-5 m-2 bg-purple-500 p-8 rounded-md    w-full max-w-[500px] mx-auto my-auto " 
+        className="flex flex-col gap-5 m-2 bg-purple-500 p-8 rounded-md w-full max-w-[500px] mx-auto my-auto"
       >
         <label htmlFor="userName">Name: </label>
         <input
@@ -111,6 +147,7 @@ function Signup() {
         <button
           type="submit"
           className="bg-green-400 p-2 w-min mx-auto rounded-md"
+          disabled={loader}
         >
           {loader ? "Submitting..." : "Submit"}
         </button>

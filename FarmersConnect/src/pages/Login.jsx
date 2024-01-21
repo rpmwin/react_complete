@@ -1,64 +1,62 @@
-import React, { useState } from "react";
-
-async function checkPassword(type, value, password) {
-  try {
-    const response = await fetch(
-      `http://localhost:8000/api/checkpassword?type=${type}&value=${value}&password=${password}`
-    );
-    const data = await response.json();
-
-    if (data.passwordMatch === undefined) {
-      // Error handling: Unable to check password
-      console.log("Error checking password");
-      return null;
-    } else if (data.passwordMatch) {
-      // Password matches, return the user data
-      return data.user;
-    } else {
-      // Password is incorrect
-      return null;
-    }
-  } catch (error) {
-    console.log("Error checking password:", error);
-    return null; // Return null to indicate an error
-  }
-}
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
+  const [loader, setLoader] = useState(false);
+  const navigate = useNavigate();
 
   const loginForm = async (event) => {
     event.preventDefault();
 
-    if (!phone || !password) {
-      let missingFields = [];
-      if (!phone) missingFields.push("Phone Number");
-      if (!password) missingFields.push("Password");
-      alert(
-        "Please fill in the following fields:\n" + missingFields.join(", ")
+    setLoader(true);
+
+    let Data = {
+      phone: phone,
+      password: password,
+    };
+
+    let jsonData = JSON.stringify(Data);
+
+
+
+
+    try {
+
+     
+
+      const response = await fetch(
+        "http://localhost:5544/routes/checkpassword",
+        {
+          method: "POST", // Change to POST
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: jsonData,
+        }
       );
-      return;
-    }
 
-    let userData = await checkPassword("phone", phone, password);
 
-    if (userData) {
-      // Password is correct, handle user data
-      console.log("User Data:", userData);
 
-      // Redirect to the dashboard page using React Router
-      // Make sure to install react-router-dom and set up your routes
-      // Example: history.push("/dashboard");
-    } else {
-      // Password is incorrect
-      alert("Incorrect password. Please try again.");
+
+      if (response.ok) {
+        console.log("Success: You are successfully logged in",response);
+        alert("Correct PASSWORD");
+        // navigate("/after/dummy");
+      } else {
+        console.log("Error: INCORRECT PASSWORD");
+        alert("INCORRECT PASSWORD");
+      }
+    } catch (error) {
+      console.log("Login error occurred .. ", error);
+    } finally {
+      setLoader(false);
     }
   };
 
   return (
     <div className="w-screen min-h-screen flex justify-center items-center flex-col">
-      {/* ... rest of your code ... */}
       <form
         onSubmit={loginForm}
         className="flex flex-col gap-5 m-2 bg-purple-500 p-8 rounded-md items-center"
@@ -70,9 +68,10 @@ function Login() {
           name="phone"
           className="rounded-md p-3 text-black"
           value={phone}
+          required
           placeholder="Phone Number"
           onChange={(e) => setPhone(e.target.value)}
-          />
+        />
         <label htmlFor="password">Password: </label>
         <input
           type="password"
@@ -81,10 +80,11 @@ function Login() {
           className="rounded-md p-3 text-black"
           placeholder="Password"
           value={password}
+          required
           onChange={(e) => setPassword(e.target.value)}
         />
         <button type="submit" className="bg-green-400 p-2 w-min rounded-md">
-          Submit
+          {loader ? <p>loading...</p> : <p>submit</p>}
         </button>
       </form>
     </div>
