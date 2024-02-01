@@ -1,27 +1,27 @@
-import React, { useState } from "react";
+import  { useState } from 'react';
 
 function Signup() {
-  const [userName, setUserName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [password, setPassword] = useState("");
-  const [landNumber, setLandNumber] = useState("");
+  const [userName, setUserName] = useState('');
+  const [email, setEmail] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [password, setPassword] = useState('');
+  const [landNumber, setLandNumber] = useState('');
   const [loader, setLoader] = useState(false);
 
   const checkAvailability = async (type, value) => {
     try {
       const response = await fetch(`http://localhost:5544/routes/checkphone`, {
-        method: "POST",
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({ type, value }),
       });
       return response.ok;
     } catch (error) {
       console.log(
-        "Some error occurred in the check availability function",
-        error
+        'Some error occurred in the check availability function',
+        error,
       );
     }
   };
@@ -32,8 +32,8 @@ function Signup() {
 
     try {
       const phoneAvailable = await checkAvailability(
-        "phoneNumber",
-        phoneNumber
+        'phoneNumber',
+        phoneNumber,
       );
 
       if (!phoneAvailable) {
@@ -50,33 +50,33 @@ function Signup() {
         const response = await fetch(
           `http://localhost:5544/routes/createUser`,
           {
-            method: "POST",
+            method: 'POST',
             headers: {
-              "Content-Type": "application/json",
+              'Content-Type': 'application/json',
             },
             body: jsonData,
-          }
+          },
         );
 
         if (response.ok) {
           console.log(
-            "Success: Information has been successfully sent",
-            response
+            'Success: Information has been successfully sent',
+            response,
           );
           console.log(
-            "Success: Information has been successfully sent",
-            jsonData.name
+            'Success: Information has been successfully sent',
+            jsonData.name,
           );
           // Add any success logic here
         } else {
-          console.log("Error: Failed to create user");
+          console.log('Error: Failed to create user');
           // Handle error, you can add more detailed error handling here
         }
       } else {
-        alert("Please enter a different phone number");
+        alert('Please enter a different phone number');
       }
     } catch (error) {
-      console.error("Signup error occurred...", error);
+      console.error('Signup error occurred...', error);
     } finally {
       setLoader(false);
     }
@@ -149,7 +149,7 @@ function Signup() {
           className="bg-green-400 p-2 w-min mx-auto rounded-md"
           disabled={loader}
         >
-          {loader ? "Submitting..." : "Submit"}
+          {loader ? 'Submitting...' : 'Submit'}
         </button>
       </form>
     </div>

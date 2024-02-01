@@ -1,0 +1,26 @@
+@keyframes slideRight {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+@keyframes textSlideRight {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0%);
+  }
+}
+
+.animate-textSlideRight {
+  animation: textSlideRight 0.5s ease;
+}
+
+
+.animate-slideRight {
+  animation: slideRight 0.5s ease;
+  
+}

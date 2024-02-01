@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
-  const [phone, setPhone] = useState("");
-  const [password, setPassword] = useState("");
+  const [phone, setPhone] = useState('');
+  const [password, setPassword] = useState('');
   const [loader, setLoader] = useState(false);
   const navigate = useNavigate();
 
@@ -19,37 +19,28 @@ function Login() {
 
     let jsonData = JSON.stringify(Data);
 
-
-
-
     try {
-
-     
-
       const response = await fetch(
-        "http://localhost:5544/routes/checkpassword",
+        'http://localhost:5544/routes/checkpassword',
         {
-          method: "POST", // Change to POST
+          method: 'POST', // Change to POST
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
           body: jsonData,
-        }
+        },
       );
 
-
-
-
       if (response.ok) {
-        console.log("Success: You are successfully logged in",response);
-        alert("Correct PASSWORD");
+        console.log('Success: You are successfully logged in', response);
+        alert('Correct PASSWORD');
         // navigate("/after/dummy");
       } else {
-        console.log("Error: INCORRECT PASSWORD");
-        alert("INCORRECT PASSWORD");
+        console.log('Error: INCORRECT PASSWORD');
+        alert('INCORRECT PASSWORD');
       }
     } catch (error) {
-      console.log("Login error occurred .. ", error);
+      console.log('Login error occurred .. ', error);
     } finally {
       setLoader(false);
     }

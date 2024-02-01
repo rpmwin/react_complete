@@ -7,8 +7,8 @@ function App() {
   const [count, setCount] = useState(0);
 
   return (
-    <div className="bg-slate-600 min-h-screen w-full h-full text-white flex justify-center items-center">
-      <Outlet className="bg-slate-600 min-h-screen w-full h-full  " />
+    <div className="bg-[#1e1e20] min-h-screen w-full h-full text-white flex justify-center items-center">
+      <Outlet className=" min-h-screen w-full h-full  " />
     </div>
   );
 }
