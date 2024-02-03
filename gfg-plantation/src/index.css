@@ -1,0 +1,73 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: mexcellent;
+  src: url("../public/MEXCELLENT.3D-REGULAR.OTF");
+}
+@font-face {
+  font-family: gilroy;
+  src: url("../public/GILROY-LIGHT.OTF");
+}
+
+.mexcellent {
+  font-family: mexcellent;
+}
+
+.gilroy {
+  font-family: gilroy;
+}
+
+.custombuttons {
+  position: relative;
+  width: 150px;
+}
+
+.custombuttons::after {
+  content: "";
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background: black;
+  left: 0;
+  bottom: -100%;
+  border-radius: 16px;
+  transition: all ease 0.5s;
+  z-index: 1;
+}
+
+.custombuttons:hover::after {
+  bottom: 0;
+}
+
+.custombuttons p {
+  position: relative;
+  z-index: 2;
+  font-size: 19px;
+  letter-spacing: 2px;
+  /* font-weight: 00; */
+  
+}
+.custombuttons p:hover {
+
+  font-style: italic;
+  transition: 200ms;
+  
+}
+
+
+
+
+/* Add the following styles for the black surface after link text */
+/* .custombuttons .after {
+  position: absolute;
+  content: "";
+  height: 100%;
+  width: 100%;
+  background: black;
+  left: 0;
+  bottom: 0;
+  border-radius: 16px;
+  z-index: 1;
+} */
