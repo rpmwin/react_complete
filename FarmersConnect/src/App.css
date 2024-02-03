@@ -1,6 +1,20 @@
+body {
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+
 @keyframes slideRight {
   from {
     transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+@keyframes slideLeft {
+  from {
+    transform: translateX(50%);
   }
   to {
     transform: translateX(0);
@@ -23,4 +37,17 @@
 .animate-slideRight {
   animation: slideRight 0.5s ease;
   
+}
+.animate-slideLeft {
+  animation: slideLeft 0.5s ease-in-out;
+  
+}
+
+.animate-slideRight,
+.animate-slideLeft {
+  position: absolute;
+}
+
+.min-h-screen {
+  height: 100vh;
 }
