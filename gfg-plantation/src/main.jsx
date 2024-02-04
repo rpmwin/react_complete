@@ -8,7 +8,7 @@ import AddPlant from './Pages/AddPlant.jsx';
 import PlantDashBoard from './Pages/PlantDashBoard.jsx';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
+  
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<App />}>
@@ -18,5 +18,5 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         </Route>
       </Routes>
     </BrowserRouter>
-  </React.StrictMode>,
+  
 );

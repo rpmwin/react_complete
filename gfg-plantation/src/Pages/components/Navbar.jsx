@@ -7,7 +7,7 @@ function Navbar() {
       <div className="  bg-slate-300   py-1 ">
         <div className="flex px-2 justify-between items-center text-center  ">
           <div className=" flex  py-2 px-4 mexcellent text-7xl text-black ">
-            GFG - PLANTANTION
+            GFG - PLANTATION
             <div className="bg-black   w-[2px] mx-2 ml-6 rounded-lg"></div>
           </div>
           <div className=" flex justify-around box-content m-3 mr-28 gap-24 relative gilroy ">

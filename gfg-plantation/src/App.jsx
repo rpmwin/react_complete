@@ -11,9 +11,9 @@ function App() {
   const [count, setCount] = useState(0);
 
   return (
-    <div className='min-h-screen bg-[#1c1c1c] text-white'>
+    <div className='min-h-screen bg-[#1c1c1c] text-white flex flex-col'>
       <div className=' '><Navbar /></div>
-      <div><Outlet /></div>
+      <div className='flex-grow'><Outlet /></div>
       <div><Footer /></div>
     </div>
   );
