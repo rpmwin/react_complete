@@ -10,7 +10,7 @@ function App() {
   }
 
   return (
-    <div className=" bg-slate-900 p-2 text-center flex flex-col   items-center w-screen h-screen overflow-clip " style={{backgroundColor:color}}>
+    <div className=" bg-slate-900 p-2 text-center flex flex-col   items-center w-screen h-screen overflow-clip "    style={{backgroundColor:color}} >
       <h1 className="bg-slate-500 text-5xl p-3 max-w-max h-min inline-block rounded-lg py-7 pt-3">
         A bg changer app with vite...
       </h1>
