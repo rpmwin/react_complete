@@ -8,6 +8,7 @@ function App() {
   const [categoryName, setCategoryName] = useState('');
   const [char, setChar] = useState('');
   const [allComplted, setAllComplted] = useState(false);
+  // const 
 
   const data2 = [
     {
@@ -111,6 +112,7 @@ function App() {
   // let keys = Object.keys(data);
   // console.log(keys);
   const createVariable = () => {
+    setAllComplted(false);
     const randomCategoryIndex = Math.floor(Math.random() * data2.length);
     const category = data2[randomCategoryIndex];
     const items = Object.values(category.options);
@@ -131,17 +133,21 @@ function App() {
   };
 
   const splittedAnswer = answer.split('');
-  const checkAnswer = useEffect(() => {
+
+  const checkCompleted = () => {
     for (let index = 0; index < splittedAnswer.length; index++) {
       const element = document.getElementById(index);
-      if (element.innerText === '_') {
+      if (element.innerText === '__') {
         setAllComplted(false);
         break;
       } else {
         setAllComplted(true);
-        
       }
     }
+  };
+
+  useEffect(() => {
+    checkCompleted();
     if (!allComplted) {
       for (let index = 0; index < splittedAnswer.length; index++) {
         if (splittedAnswer[index] === char) {
@@ -149,23 +155,43 @@ function App() {
           element.innerText = char;
         }
       }
-    } else {
-      alert("You've completed the game");
+    } 
+    
+    checkCompleted();
+    if(allComplted){ 
+      alert('congrats, you won the game');
+      resetLetters(); // Reset letters after showing the alert
+      createVariable();
     }
-  }, [char,answer]);
+  }, [char, answer, allComplted]);
+  
+  // Function to reset letters to their initial state
+  const resetLetters = () => {
+    for (let index = 0; index < splittedAnswer.length; index++) {
+      const element = document.getElementById(index);
+      element.innerText = '__';
+    }
+  };
 
   return (
     <>
-      <div className="min-h-screen bg-slate-500">
-        <h1 className="text-3xl font-bold underline">{categoryName}</h1>
-        {answer.split('').map((_, index) => (
-          <span key={index} className="underline p-1 " id={index}>
-            _
-          </span>
-        ))}
+      <div className="min-h-screen bg-slate-500 flex flex-col items-center justify-center">
+        <h1 className="text-3xl font-bold underline  ">{categoryName}</h1>
+        <div className="flex text-3xl">
+          {answer.split('').map((_, index) => (
+            <span key={index} className="underline p-1 " id={index}>
+              __
+            </span>
+          ))}
+        </div>
         <br />
-        <button onClick={createVariable}>click me</button>
-        <div className="keyboard flex flex-col gap-2 w-min items-center p-5">
+        <button
+          onClick={createVariable}
+          className="bg-orange-400 hover:bg-orange-800 hover:text-white text-2xl p-3 rounded"
+        >
+          click me
+        </button>
+        <div className="keyboard flex flex-col gap-2 w-min items-center p-5 text-xl">
           <div className="flex gap-2">
             <button onClick={selectedChar}>
               <p className="p-2 bg-slate-300 rounded w-9 text-center hover:bg-slate-800 hover:text-white">
@@ -333,4 +359,3 @@ function App() {
 
 export default App;
 
-// write a functions that can randomly choose a value fom a object and return it
