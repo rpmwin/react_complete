@@ -3,7 +3,7 @@ import useTheme from '../context/Theme';
 
 export default function ThemeBtn() {
     
-  const {themeMode, lightTheme, darkTheme} =useTheme()
+  const {themeMode, lightTheme, darkTheme} = useTheme()
 
   const onchangebtn = (e) =>{
     const darkModeStatus = e.target.checked;

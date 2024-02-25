@@ -1,14 +1,11 @@
 import { useEffect, useState } from 'react';
-import reactLogo from './assets/react.svg';
-import viteLogo from '/vite.svg';
-import './App.css';
 
 function App() {
   const [answer, setAnswer] = useState('');
   const [categoryName, setCategoryName] = useState('');
   const [char, setChar] = useState('');
-  const [allComplted, setAllComplted] = useState(false);
-  // const 
+  const [lengthOfWord, setLengthOfWord] = useState(0);
+  const [counter, setCounter] = useState(5);
 
   const data2 = [
     {
@@ -109,22 +106,16 @@ function App() {
     },
   ];
 
-  // let keys = Object.keys(data);
-  // console.log(keys);
   const createVariable = () => {
-    setAllComplted(false);
     const randomCategoryIndex = Math.floor(Math.random() * data2.length);
     const category = data2[randomCategoryIndex];
-    const items = Object.values(category.options);
+    const items = category.options;
     const randomItemIndex = Math.floor(Math.random() * items.length);
     const randomItem = items[randomItemIndex];
-    console.log(randomCategoryIndex);
-    console.log(category.name);
-    console.log(items);
-    console.log(randomItemIndex);
-    console.log(randomItem);
     setCategoryName(category.name);
     setAnswer(randomItem);
+    setLengthOfWord(randomItem.length);
+    setCounter(5); // Reset the counter
   };
 
   const selectedChar = (e) => {
@@ -132,230 +123,71 @@ function App() {
     setChar(char);
   };
 
-  const splittedAnswer = answer.split('');
-
-  const checkCompleted = () => {
-    for (let index = 0; index < splittedAnswer.length; index++) {
-      const element = document.getElementById(index);
-      if (element.innerText === '__') {
-        setAllComplted(false);
-        break;
-      } else {
-        setAllComplted(true);
-      }
-    }
-  };
-
   useEffect(() => {
-    checkCompleted();
-    if (!allComplted) {
-      for (let index = 0; index < splittedAnswer.length; index++) {
-        if (splittedAnswer[index] === char) {
-          const element = document.getElementById(index);
-          element.innerText = char;
-        }
-      }
-    } 
-    
-    checkCompleted();
-    if(allComplted){ 
-      alert('congrats, you won the game');
-      resetLetters(); // Reset letters after showing the alert
+    if (counter === 0) {
+      alert('OOPS, you LOST ...');
+      resetGame();
+      createVariable();
+    } else if (answer === answer.replace(/_/g, '')) {
+      alert('Congratulations, you won the game!');
+      resetGame();
       createVariable();
     }
-  }, [char, answer, allComplted]);
-  
-  // Function to reset letters to their initial state
-  const resetLetters = () => {
-    for (let index = 0; index < splittedAnswer.length; index++) {
-      const element = document.getElementById(index);
-      element.innerText = '__';
-    }
+  }, [counter, answer]);
+
+  const resetGame = () => {
+    setAnswer('');
+    setChar('');
   };
 
   return (
     <>
-      <div className="min-h-screen bg-slate-500 flex flex-col items-center justify-center">
-        <h1 className="text-3xl font-bold underline  ">{categoryName}</h1>
-        <div className="flex text-3xl">
-          {answer.split('').map((_, index) => (
-            <span key={index} className="underline p-1 " id={index}>
-              __
-            </span>
-          ))}
-        </div>
-        <br />
-        <button
-          onClick={createVariable}
-          className="bg-orange-400 hover:bg-orange-800 hover:text-white text-2xl p-3 rounded"
-        >
-          click me
-        </button>
-        <div className="keyboard flex flex-col gap-2 w-min items-center p-5 text-xl">
-          <div className="flex gap-2">
-            <button onClick={selectedChar}>
-              <p className="p-2 bg-slate-300 rounded w-9 text-center hover:bg-slate-800 hover:text-white">
-                Q
-              </p>
-            </button>
-
-            <button onClick={selectedChar}>
-              <p className="p-2 bg-slate-300 rounded w-9 text-center hover:bg-slate-800 hover:text-white">
-                W
-              </p>
-            </button>
-
-            <button onClick={selectedChar}>
-              <p className="p-2 bg-slate-300 rounded w-9 text-center hover:bg-slate-800 hover:text-white">
-                E
-              </p>
-            </button>
-
-            <button onClick={selectedChar}>
-              <p className="p-2 bg-slate-300 rounded w-9 text-center hover:bg-slate-800 hover:text-white">
-                R
-              </p>
-            </button>
-
-            <button onClick={selectedChar}>
-              <p className="p-2 bg-slate-300 rounded w-9 text-center hover:bg-slate-800 hover:text-white">
-                T
-              </p>
-            </button>
-
-            <button onClick={selectedChar}>
-              <p className="p-2 bg-slate-300 rounded w-9 text-center hover:bg-slate-800 hover:text-white">
-                Y
-              </p>
-            </button>
-
-            <button onClick={selectedChar}>
-              <p className="p-2 bg-slate-300 rounded w-9 text-center hover:bg-slate-800 hover:text-white">
-                U
-              </p>
-            </button>
-
-            <button onClick={selectedChar}>
-              <p className="p-2 bg-slate-300 rounded w-9 text-center hover:bg-slate-800 hover:text-white">
-                I
-              </p>
-            </button>
-
-            <button onClick={selectedChar}>
-              <p className="p-2 bg-slate-300 rounded w-9 text-center hover:bg-slate-800 hover:text-white">
-                O
-              </p>
-            </button>
-
-            <button onClick={selectedChar}>
-              <p className="p-2 bg-slate-300 rounded w-9 text-center hover:bg-slate-800 hover:text-white">
-                P
-              </p>
-            </button>
+      <div className="flex">
+        <div className="min-h-screen bg-slate-500 flex flex-grow flex-col items-center justify-center">
+          <h1 className="text-3xl font-bold underline">{categoryName}</h1>
+          <div className="flex text-3xl">
+            {answer.split('').map((_, index) => (
+              <span key={index} className="underline p-1">
+                __
+              </span>
+            ))}
           </div>
-          <div className="flex gap-2">
-            <button onClick={selectedChar}>
-              <p className="p-2 bg-slate-300 rounded w-9 text-center hover:bg-slate-800 hover:text-white">
-                A
-              </p>
-            </button>
-
-            <button onClick={selectedChar}>
-              <p className="p-2 bg-slate-300 rounded w-9 text-center hover:bg-slate-800 hover:text-white">
-                S
-              </p>
-            </button>
-
-            <button onClick={selectedChar}>
-              <p className="p-2 bg-slate-300 rounded w-9 text-center hover:bg-slate-800 hover:text-white">
-                D
-              </p>
-            </button>
-
-            <button onClick={selectedChar}>
-              <p className="p-2 bg-slate-300 rounded w-9 text-center hover:bg-slate-800 hover:text-white">
-                F
-              </p>
-            </button>
-
-            <button onClick={selectedChar}>
-              <p className="p-2 bg-slate-300 rounded w-9 text-center hover:bg-slate-800 hover:text-white">
-                G
-              </p>
-            </button>
-
-            <button onClick={selectedChar}>
-              <p className="p-2 bg-slate-300 rounded w-9 text-center hover:bg-slate-800 hover:text-white">
-                H
-              </p>
-            </button>
-
-            <button onClick={selectedChar}>
-              <p className="p-2 bg-slate-300 rounded w-9 text-center hover:bg-slate-800 hover:text-white">
-                J
-              </p>
-            </button>
-
-            <button onClick={selectedChar}>
-              <p className="p-2 bg-slate-300 rounded w-9 text-center hover:bg-slate-800 hover:text-white">
-                K
-              </p>
-            </button>
-
-            <button onClick={selectedChar}>
-              <p className="p-2 bg-slate-300 rounded w-9 text-center hover:bg-slate-800 hover:text-white">
-                L
-              </p>
-            </button>
-          </div>
-          <div className="flex gap-2">
-            <button onClick={selectedChar}>
-              <p className="p-2 bg-slate-300 rounded w-9 text-center hover:bg-slate-800 hover:text-white">
-                Z
-              </p>
-            </button>
-
-            <button onClick={selectedChar}>
-              <p className="p-2 bg-slate-300 rounded w-9 text-center hover:bg-slate-800 hover:text-white">
-                X
-              </p>
-            </button>
-
-            <button onClick={selectedChar}>
-              <p className="p-2 bg-slate-300 rounded w-9 text-center hover:bg-slate-800 hover:text-white">
-                C
-              </p>
-            </button>
-
-            <button onClick={selectedChar}>
-              <p className="p-2 bg-slate-300 rounded w-9 text-center hover:bg-slate-800 hover:text-white">
-                V
-              </p>
-            </button>
-
-            <button onClick={selectedChar}>
-              <p className="p-2 bg-slate-300 rounded w-9 text-center hover:bg-slate-800 hover:text-white">
-                B
-              </p>
-            </button>
-
-            <button onClick={selectedChar}>
-              <p className="p-2 bg-slate-300 rounded w-9 text-center hover:bg-slate-800 hover:text-white">
-                N
-              </p>
-            </button>
-
-            <button onClick={selectedChar}>
-              <p className="p-2 bg-slate-300 rounded w-9 text-center hover:bg-slate-800 hover:text-white">
-                M
-              </p>
-            </button>
+          <br />
+          <button
+            onClick={createVariable}
+            className="bg-orange-400 hover:bg-orange-800 hover:text-white text-2xl p-3 rounded"
+          >
+            Start Game
+          </button>
+          <div>Length of Word: {lengthOfWord}</div>
+          <div className="keyboard flex flex-col gap-2 w-min items-center p-5 text-xl">
+            {['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'].map((char) => (
+              <button key={char} onClick={selectedChar}>
+                <p className="p-2 bg-slate-300 rounded w-9 text-center hover:bg-slate-800 hover:text-white">
+                  {char}
+                </p>
+              </button>
+            ))}
+            {['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'].map((char) => (
+              <button key={char} onClick={selectedChar}>
+                <p className="p-2 bg-slate-300 rounded w-9 text-center hover:bg-slate-800 hover:text-white">
+                  {char}
+                </p>
+              </button>
+            ))}
+            {['Z', 'X', 'C', 'V', 'B', 'N', 'M'].map((char) => (
+              <button key={char} onClick={selectedChar}>
+                <p className="p-2 bg-slate-300 rounded w-9 text-center hover:bg-slate-800 hover:text-white">
+                  {char}
+                </p>
+              </button>
+            ))}
           </div>
         </div>
+        <div className="w-1/3">{counter}</div>
       </div>
     </>
   );
 }
 
 export default App;
-
